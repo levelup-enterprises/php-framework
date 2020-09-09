@@ -1,41 +1,59 @@
 <?php
 
 ///////////////////////////////
-// Project Variables
+//* Vendor Library
 ///////////////////////////////
 
-/**
- * DB Table
- * @var \Array
- * Enter table names as array for easy changes
- * 
- * 0 - table1
- * 
- * 1 - table2
- */
-$table = [];
+require_once(__DIR__ . '/../../vendor/autoload.php');
+
+// Declare libraries
+use Utilities\DB;
+use Http\Session;
+
+///////////////////////////////
+//* Project Variables
+///////////////////////////////
+
+// Site Info --------------------------- //
+
+// Set site title
+define('TITLE', 'PHP Starter');
+
+// Set production url
+define('PROD_URL', 'www.phpstarter.com');
+
+// Set current version
+define('VERSION', '1.0');
+
+// ------------------------------------ //
+
+// Set DB connection info
 define('DBDATA', include('db.php'));
-$siteURL =  $_SERVER['HTTP_HOST'];
 
-///////////////////////////////
-// Set Current Time
-///////////////////////////////
+// Set Session timeout
+define('TIMEOUT', 1800); // 30 mins 1800
+
+// Set views directory
+define('VIEWS', 'templates/');
+
+// Set Stage Env
+define('STAGE', true);
 
 // Set the default timezone
 date_default_timezone_set('America/Chicago');
-$today = date('Y-m-d H:i:s');
+
+// Set local Env
+if ($_SERVER["REMOTE_ADDR"] === '127.0.0.1') {
+define('LOCAL', true);
+} else {
+define('LOCAL', false);
+}
 
 ///////////////////////////////
-// Set Stage Env
+//* Error Handling
 ///////////////////////////////
 
-define('ENV', true);
-
-///////////////////////////////
-// Error Handling
-///////////////////////////////
-
-if (!$stage) {
+if (!STAGE) {
     error_reporting(E_ALL ^ E_WARNING);
 } else {
     error_reporting(E_ALL);
@@ -43,54 +61,12 @@ if (!$stage) {
 }
 
 ///////////////////////////////
-// Get ip address
+//* Initialize Classes
 ///////////////////////////////
 
-$ipAddress = htmlspecialchars($_SERVER["REMOTE_ADDR"]);
-
-///////////////////////////////
-// Check for Stage Env
-///////////////////////////////
-
-if ($ipAddress === '127.0.0.1') {
-    $local = true;
-    $loginRequired = false;
-} else {
-    $local = false;
-    $loginRequired = true;
-}
-
-///////////////////////////////
-// Set login state
-///////////////////////////////
-
-if (!$local) {
-    if ($ipAddress !== '127.0.0.1') {
-        $loginRequired = true;
-    }
-}
-
-///////////////////////////////
-// Vendor Library
-///////////////////////////////
-
-require_once(__DIR__ . '/../../../vendor/autoload.php');
-
-///////////////////////////////
-// Class Libraries 
-// - No need to link classes
-///////////////////////////////
-
-spl_autoload_register('autoloader');
-
-function autoloader($class)
-{
-    include_once __DIR__ . "/../Models/" . $class . '.php';
-}
-
-///////////////////////////////
 // Connect DB
-///////////////////////////////
+$conn = new DB();
+$db = $conn->start();
 
-$connection = new DB();
-$db = $connection->start();
+// Start sessions
+$session = new Session;

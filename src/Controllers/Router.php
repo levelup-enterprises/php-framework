@@ -1,17 +1,31 @@
 <?php
 
+namespace Controllers;
+
+use Http\request;
+
+/*
+ |----------------------------------------------------------------------------|
+ | Router finds valid pages from views directory
+ |----------------------------------------------------------------------------|
+ - Add additional pages in views directory* 
+ - Any additional directories will be validated for pages
+ - EX:
+ - es/
+    - index.php
+    - 404.php
+ */
+
 class Router
 {
     private $request;
     private $pages;
     private $views;
 
-    public function __construct($root)
+    public function __construct()
     {
-        $this->request = urldecode(
-            parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)
-        );
-        $this->views = $root;
+        $this->request = request::getURI();
+        $this->views = VIEWS;
         $this->pages = $this->getPages($this->views);
     }
 
@@ -31,7 +45,12 @@ class Router
         $uri = explode("/", $uri[0]);
 
         // If var empty set to index
-        empty($uri[0]) && $uri[0] = 'index';
+        if (empty($uri[0])) {
+            $uri[0] = 'index';
+        } else if (preg_match('./$.', $this->request)) {
+            $i = count($uri);
+            $uri[$i - 1] .= '/index';
+        }
 
         // Check for deep roots
         if (isset($uri[1])) {
@@ -40,11 +59,6 @@ class Router
                 $uris .= $i . "/";
             }
             $uri[0] = substr($uris, 0, -1);
-        }
-
-        // Check for query
-        if (!empty($query[1])) {
-            $uri[0] = $query[0];
         }
 
         // Check if site exist
@@ -70,7 +84,7 @@ class Router
         $pages = array();
         $directories = array();
         $last_letter  = $root[strlen($root) - 1];
-        $root  = ($last_letter == '\\' || $last_letter == '/') ? $root : $root . DIRECTORY_SEPARATOR;
+        $root  = ($last_letter == '\\' || $last_letter == '/') ? $root : $root . '/';
 
         $directories[]  = $root;
 
@@ -84,10 +98,10 @@ class Router
                         continue;
                     }
                     // Remove these directories
-                    if ($file !== "components" && $file !== "pages") {
+                    if ($file !== "components" && $file !== "views") {
                         $file  = $dir . $file;
                         if (is_dir($file)) {
-                            $directory_path = $file . DIRECTORY_SEPARATOR;
+                            $directory_path = $file . '/';
                             array_push($directories, $directory_path);
                         } elseif (is_file($file)) {
 
@@ -115,9 +129,9 @@ class Router
      * @param boolean $returnName
      * @return string uri or name
      */
-    static function trimURI($uri, $returnName = false)
+    public function trimURI($returnName = false)
     {
-        $page = explode(".php", $uri);
+        $page = explode(".php", $this->request);
         $page = explode("/", $page[0]);
         $pageName = array_pop($page);
         $root = "";
@@ -129,8 +143,7 @@ class Router
             empty($pageName) && $pageName = "index";
             $root = $pageName;
         }
-
-        return $root = rtrim($root, "/");
+        return $root = trim($root, "/");
     }
 
     /** ----------------------------

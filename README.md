@@ -1,15 +1,15 @@
 # Getting started
 
-1. Set your site data in info.php.
+1. Use the SRC -> config -> index file to set up your site information
 
-2. Add your accessible pages to the src/views directory
+2. Add your accessible pages to the templates directory
 
-   - Router only allows page request to pages in views
-   - Source folder can be changed in info.php
+   - Router only allows page request to pages in templates directory
+   - Source folder can be changed in config file
 
-3. Add page content to src/views/pages
+3. Add page content to templates/views
 
-   - Add extension .pages.php to all content pages
+   - Add extension .view.php to all content pages
 
 # Structure
 

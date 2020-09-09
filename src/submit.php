@@ -1,20 +1,11 @@
 <?php require_once("config/index.php");
 
+use Http\Request;
+
 if (!empty($_POST)) {
 
-    // Get and clean inputs
-    // ---------------------------------------------------------------- //
-    try {
-        foreach ($_POST as $name => $value) {
-            $form[htmlspecialchars($name)] = htmlspecialchars($value);
-        }
-    } catch (Exception $e) {
-        $_SESSION['errors']['inputs'] = $e;
-    }
-    // ---------------------------------------------------------------- //
+    $form = request::allPost();
 
-
+    print_r($form);
     // handle submit
 }
-
-$db->disconnect();

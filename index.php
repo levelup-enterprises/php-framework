@@ -1,22 +1,20 @@
-<?php
-require_once("./src/Config/index.php");
-require_once("./src/Controllers/Route.php");
+<?php require_once("./src/config/index.php");
 
-$site = include_once('./info.php');
-$links = include_once('./links.php');
-$page = Router::trimURI($uri, true);
+use Controllers\Router;
+use Controllers\Link;
+use Utilities\Browser;
+
+// Check if ie browser
 $isIE = Browser::isIE();
 
-/*
- |----------------------------------------------------------------------------|
- | Router finds valid pages from views directory
- |----------------------------------------------------------------------------|
- - Add additional pages in views directory* 
- - Any additional directories will be validated for pages
- - EX:
- - es/
-    - index.php
-    - 404.php
- */
-$router = new Router($site['VIEWS']);
+// Start router
+$router = new Router;
+
+// Setup page links
+$link = new Link;
+
+// Bring in frontend
 require __DIR__ . $router->route();
+
+// Close any open connections
+isset($db) && $db->disconnect(); 

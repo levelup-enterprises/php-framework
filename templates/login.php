@@ -1,22 +1,19 @@
-<?php session_start();
-$sidenav = false; /* Use sidenav? */
-?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <!-- Header -->
-    <?php include($links['COMPONENTS']['header']) ?>
-    <title>Login - <?= $site['TITLE'] ?></title>
+    <?php include($link->getComponent('header')) ?>
+    <title>Login - <?= TITLE ?></title>
 </head>
 
-<body class="<?= $page  ?>">
+<body class="<?= $router->trimURI(true)  ?>">
     <!-- Nav -->
-    <?php include_once($links['COMPONENTS']['nav']) ?>
+    <?php include($link->getComponent('nav'))  ?>
     <!-- Main -->
-    <?php include($links['COMPONENTS']['main']) ?>
+    <?php include($link->getComponent('main'))  ?>
     <!-- Scripts -->
-    <?php include($links['COMPONENTS']['scripts']) ?>
+    <?php include($link->getComponent('scripts'))  ?>
 
 </body>
 
