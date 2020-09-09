@@ -96,14 +96,14 @@ All view content is stored here.
           thankyou.php (accessible page)
           views/
             thankyou.view.php (page content)
-        authorized/
-          user.php (accessible page)
-          views/
-            user.view.php (page content)
-          admin/
-            index.php (accessible page)
+          authorized/
+            user.php (accessible page)
             views/
-              index.view.php (page content)
+              user.view.php (page content)
+            admin/
+              index.php (accessible page)
+              views/
+                index.view.php (page content)
 
 ## Vendor
 
