@@ -11,31 +11,45 @@ class Link
     function __construct()
     {
         $this->views = VIEWS;
-        $router = new Router;
-        $this->uri = $router->trimURI();
-        $this->page = $router->trimURI(true);
-        $this->root = request::getRoot();
+        $this->uri = Router::trimURI();
+        $this->page = Router::trimURI(true);
+        $this->root = Request::getRoot();
     }
 
+
+    /** ----------------------------
+     *? Return public path
+     * -----------------------------
+     * @param string $path public directory
+     * @return string path for inclusion
+     */
     public function public($path)
     {
         return "/public/${path}/";
     }
 
-    public function get($path)
+    /** ----------------------------
+     *? Return file to include
+     * -----------------------------
+     * - Use inside include function
+     * 
+     * @param string $path templates directory
+     * @param string $fileName name of file w/out ext
+     * @return string path for inclusion
+     */
+    public function get($path, $fileName = null)
     {
-        return "/$this->root/$this->views/${path}/";
-    }
-
-    public function page($path)
-    {
-        return "/$this->root/$this->views$this->uri/views/${path}/";
+        $fileName
+            ? $fileName .= ".php"
+            : $fileName = "";
+        return "/$this->root/$this->views/$path/$fileName";
     }
 
     /** -------------------------
      *? Return current view path
      * --------------------------
      * Includes current page view
+     * - Use inside include function
      */
     public function getView()
     {
@@ -47,6 +61,7 @@ class Link
      *? Return Component path 
      * --------------------------
      * Return requested component path
+     * - Use inside include function
      */
     public function getComponent($component)
     {

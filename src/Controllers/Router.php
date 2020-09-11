@@ -24,7 +24,7 @@ class Router
 
     public function __construct()
     {
-        $this->request = request::getURI();
+        $this->request = Request::getURI();
         $this->views = VIEWS;
         $this->pages = $this->getPages($this->views);
     }
@@ -129,9 +129,9 @@ class Router
      * @param boolean $returnName
      * @return string uri or name
      */
-    public function trimURI($returnName = false)
+    public static function trimURI($returnName = false)
     {
-        $page = explode(".php", $this->request);
+        $page = explode(".php", Request::getURI());
         $page = explode("/", $page[0]);
         $pageName = array_pop($page);
         $root = "";
@@ -144,44 +144,5 @@ class Router
             $root = $pageName;
         }
         return $root = trim($root, "/");
-    }
-
-    /** ----------------------------
-     *? Redirect to login
-     * -----------------------------
-     * If loggedIn session is false
-     *  set intended URI as session
-     *  & redirect to login page.
-     * 
-     * @return header login
-     */
-    public static function secure()
-    {
-        if (!$_SESSION['loggedIn']) {
-
-            //  Get and clean current URI
-            $_SESSION['uri'] = urldecode(
-                parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)
-            );
-            header("Location: login");
-        }
-    }
-
-    /** ----------------------------
-     *? Continue to intended url
-     * -----------------------------
-     * Capture URI session if set & 
-     *  continue after login.
-     * 
-     * @return string url
-     */
-    public static function continue()
-    {
-        if (isset($_SESSION['uri'])) {
-            $uri = $_SESSION['uri'];
-            echo $uri;
-        } else {
-            echo "/";
-        }
     }
 }

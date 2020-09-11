@@ -9,13 +9,13 @@
 
 <body>
     <!-- Nav -->
-    <?php include($link->getComponent('nav'))  ?>
+    <?php include($link->getComponent('nav')) ?>
     <!-- Main -->
-    <?php include($link->getComponent('main'))  ?>
+    <?php include($link->getComponent('main')) ?>
     <!-- Footer -->
-    <?php include($link->getComponent('footer'))  ?>
+    <?php include($link->getComponent('footer')) ?>
     <!-- Scripts -->
-    <?php include($link->getComponent('scripts'))  ?>
+    <?php include($link->getComponent('scripts')) ?>
 
 </body>
 

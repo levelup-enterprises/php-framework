@@ -1,9 +1,9 @@
 <?php
 
-use Http\request;
+use Http\Request;
 // Set return / back link
-!empty(request::getReferer())
-    ? $nav = [request::getReferer(), "Go back"]
+!empty(Request::getReferer())
+    ? $nav = [Request::getReferer(), "Go back"]
     : $nav = ["/", "Return home"];
 ?>
 

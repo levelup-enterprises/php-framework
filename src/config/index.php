@@ -9,6 +9,9 @@ require_once(__DIR__ . '/../../vendor/autoload.php');
 // Declare libraries
 use Utilities\DB;
 use Http\Session;
+use Controllers\Router;
+use Controllers\Link;
+use Utilities\Browser;
 
 ///////////////////////////////
 //* Project Variables
@@ -44,9 +47,9 @@ date_default_timezone_set('America/Chicago');
 
 // Set local Env
 if ($_SERVER["REMOTE_ADDR"] === '127.0.0.1') {
-define('LOCAL', true);
+    define('LOCAL', true);
 } else {
-define('LOCAL', false);
+    define('LOCAL', false);
 }
 
 ///////////////////////////////
@@ -65,8 +68,7 @@ if (!STAGE) {
 ///////////////////////////////
 
 // Connect DB
-$conn = new DB();
-$db = $conn->start();
-
-// Start sessions
+$db = (new DB)->start();
 $session = new Session;
+$router = new Router;
+$link = new Link;

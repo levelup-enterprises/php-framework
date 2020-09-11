@@ -2,7 +2,7 @@
 
 namespace Http;
 
-use Utilities\Request;
+use Http\Request;
 
 class Session
 {
@@ -12,10 +12,9 @@ class Session
      *  ---------------------------------
      * @param bool login default true
      */
-    function __construct($login = true)
+    function __construct()
     {
         $this->start();
-        $this->requireLogin = $login;
     }
 
     /** ---------------------------
@@ -27,7 +26,6 @@ class Session
     private function start()
     {
         session_start();
-        $this->timeout();
     }
 
     /** ---------------------------
@@ -38,7 +36,7 @@ class Session
      * @param string $value
      * @param bool $override replace value
      */
-    public function set($session, $value, $override = false)
+    public static function set($session, $value, $override = false)
     {
         if (!$override && isset($_SESSION[$session])) {
             is_array($value) && $value = $value[0];
@@ -57,11 +55,11 @@ class Session
      * @param bool $clear get and clear
      * @return mixed array OR string
      */
-    public function get($session, $clear = null)
+    public static function get($session, $clear = null)
     {
         if (isset($_SESSION) && isset($_SESSION[$session])) {
             $return = $_SESSION[$session];
-            $clear !== null && $this->clear($session);
+            $clear !== null && self::clear($session);
             return $return;
         }
     }
@@ -71,7 +69,7 @@ class Session
      * ----------------------------
      * - Destroy session
      */
-    public function clear($session = null)
+    public static function clear($session = null)
     {
         if ($session === null) {
             if (isset($_SESSION)) {
@@ -94,12 +92,12 @@ class Session
      *  not set.
      * @param string $session
      */
-    public function active($session)
+    public static function active($session)
     {
         if (isset($_SESSION) && isset($_SESSION[$session])) {
             return $_SESSION[$session];
         } else {
-            request::redirect('login');
+            Request::redirect('login');
         }
     }
 
@@ -109,15 +107,15 @@ class Session
      * - Destroy session
      * - Redirect to login page
      */
-    public function logout()
+    public static function logout(array $status = null)
     {
         if (isset($_SESSION)) {
             session_unset();
             session_destroy();
 
-            $this->requireLogin
-                ? request::redirect('login')
-                : request::redirect('/');
+            (new Session)->set('uri', Request::getURI());
+            $status && (new Session)->set('status', $status);
+            Request::redirect('login');
         }
     }
 
@@ -128,15 +126,16 @@ class Session
      *   session.
      * @param string $session
      */
-    private function timeout()
+    public static function timeout()
     {
         if (
-            !empty($this->get('LAST_ACTIVITY'))
-            && (time() - $this->get('LAST_ACTIVITY') > TIMEOUT)
+            !empty(self::get('LAST_ACTIVITY'))
+            && (time() - self::get('LAST_ACTIVITY') > TIMEOUT)
         ) {
-            $this->logout();
+            self::logout(['success' => 'You have been logged out due to inactivity.']);
+            exit;
         }
-        $this->set('LAST_ACTIVITY', time(), true);
+        self::set('LAST_ACTIVITY', time(), true);
     }
 
     /** ---------------------------
@@ -146,47 +145,11 @@ class Session
      *  exist, get token.
      * @return string token
      */
-    public function csrf_token()
+    public static function csrf_token()
     {
-        if (empty($this->get('auth_token'))) {
-            $this->set('auth_token', bin2hex(random_bytes(20)));
+        if (empty(self::get('auth_token'))) {
+            self::set('auth_token', bin2hex(random_bytes(20)));
         }
-        return $this->get('auth_token');
-    }
-
-    /** ---------------------------
-     *? Verify CSRF Token
-     * -----------------------------
-     * Compare session token with
-     *  post token.
-     * @param POST csrf-token
-     * @return bool
-     */
-    public function verify_token($token = false)
-    {
-        !$token && $token = Helper::post('csrf-token');
-        if (!empty($this->get('auth_token')) && !empty($token)) {
-            if (hash_equals($this->get('auth_token'), $token)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /** ---------------------------
-     *? Verify Header Token
-     * -----------------------------
-     * Compare session token with
-     *  header token to 
-     *  validate ajax.
-     * 
-     * @param HTTP header
-     * @return bool
-     */
-    public function verify_header()
-    {
-        if ($_SERVER['HTTP_X_AUTH_TOKEN'] !== $this->get('auth_token')) {
-            $this->logout();
-        }
+        return self::get('auth_token');
     }
 }
