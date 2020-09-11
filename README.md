@@ -115,4 +115,19 @@ All vendor required files are stored here.
 - phpmailer (emails)
 - thingengineer (db library shortcode)
 
+# Special Functions
+
+## Authentication
+
+- A random 20 bit token is generated on each new session.
+- The token is stored as the session variable _auth_token_.
+- All incoming request headers are compared with the token.
+
+## AJAX Calls
+
+- All ajax calls are only allowed access to the SRC root directory
+  - Adjust the const **SCRIPTS** in the config file to change location.
+  - All other files are off limit.
+- All ajax calls are ran through header authentication automatically.
+
 ## Happy building!

@@ -8,6 +8,15 @@ use Exception;
 class Request
 {
 
+    public function handleRequest()
+    {
+        if ($_POST || $_GET) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     /** ----------------------------
      *? Redirect browser
      * -----------------------------

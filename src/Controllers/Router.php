@@ -2,31 +2,21 @@
 
 namespace Controllers;
 
-use Http\request;
-
-/*
- |----------------------------------------------------------------------------|
- | Router finds valid pages from views directory
- |----------------------------------------------------------------------------|
- - Add additional pages in views directory* 
- - Any additional directories will be validated for pages
- - EX:
- - es/
-    - index.php
-    - 404.php
- */
+use Exception;
+use Http\Request;
 
 class Router
 {
     private $request;
+    private $isRequest;
     private $pages;
-    private $views;
 
     public function __construct()
     {
         $this->request = Request::getURI();
-        $this->views = VIEWS;
-        $this->pages = $this->getPages($this->views);
+        $this->isRequest = (new Request)->handleRequest();
+        $this->pages = $this->getPages();
+        $this->isRequest && $this->backendRoutes();
     }
 
     /** ----------------------------
@@ -63,9 +53,31 @@ class Router
 
         // Check if site exist
         if (in_array(strtolower($uri[0]), $this->pages)) {
-            return '/' . $this->views . $uri[0] . '.php';
+            return '/' . VIEWS . $uri[0] . '.php';
         } else {
-            return '/' . $this->views . '404.php';
+            return '/' . VIEWS . '404.php';
+        }
+    }
+
+    /** ------------------------------
+     *? Allow access to backend files
+     * -------------------------------
+     *  - Get available routes
+     *  - Check with URI request
+     *  - Verify header matches token
+     */
+    private function backendRoutes()
+    {
+        // Get url var
+        $uri = trim($this->request, "/");
+        $uri = explode(".php", $uri);
+        $uri = explode("/", $uri[0]);
+
+        // Check if file exist
+        if (in_array(strtolower($uri[1]), $this->pages)) {
+            Request::verify_header();
+        } else {
+            die('Not allowed!');
         }
     }
 
@@ -79,44 +91,53 @@ class Router
      * @param string path to page directory
      * @return array pages
      */
-    private function getPages($root)
+    private function getPages()
     {
-        $pages = array();
-        $directories = array();
-        $last_letter  = $root[strlen($root) - 1];
-        $root  = ($last_letter == '\\' || $last_letter == '/') ? $root : $root . '/';
+        try {
+            // Build for backend/frontend accessible files
+            $this->isRequest
+                ? $root = Request::getRoot() . "/" . SCRIPTS
+                : $root = Request::getRoot() . "/" . VIEWS;
 
-        $directories[]  = $root;
+            $pages = array();
+            $directories = array();
+            $last_letter  = $root[strlen($root) - 1];
+            $root  = ($last_letter == '\\' || $last_letter == '/') ? $root : $root . '/';
 
-        // Get multilevel pages
-        while (sizeof($directories)) {
-            $dir  = array_pop($directories);
-            if ($handle = opendir($dir)) {
-                while (false !== ($file = readdir($handle))) {
-                    // Avoid these directories
-                    if ($file == '.' || $file == '..') {
-                        continue;
-                    }
-                    // Remove these directories
-                    if ($file !== "components" && $file !== "views") {
-                        $file  = $dir . $file;
-                        if (is_dir($file)) {
-                            $directory_path = $file . '/';
-                            array_push($directories, $directory_path);
-                        } elseif (is_file($file)) {
+            $directories[]  = $root;
 
-                            // Remove root
-                            $file = str_replace($root, "", $file);
-                            // Remove extension
-                            $page = explode(".php", $file);
-                            array_push($pages, $page[0]);
+            // Get multilevel pages
+            while (sizeof($directories)) {
+                $dir  = array_pop($directories);
+                if ($handle = opendir($dir)) {
+                    while (false !== ($file = readdir($handle))) {
+                        // Avoid these directories
+                        if ($file == '.' || $file == '..') {
+                            continue;
+                        }
+                        // Remove these directories
+                        if ($file !== "components" && $file !== "views") {
+                            $file  = $dir . $file;
+                            if (!$this->isRequest && is_dir($file)) {
+                                $directory_path = $file . '/';
+                                array_push($directories, $directory_path);
+                            } elseif (is_file($file)) {
+
+                                // Remove root
+                                $file = str_replace($root, "", $file);
+                                // Remove extension
+                                $page = explode(".php", $file);
+                                array_push($pages, $page[0]);
+                            }
                         }
                     }
+                    closedir($handle);
                 }
-                closedir($handle);
             }
+            return $pages;
+        } catch (Exception $e) {
+            print_r($e);
         }
-        return $pages;
     }
 
     /** ----------------------------

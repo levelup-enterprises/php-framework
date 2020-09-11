@@ -11,6 +11,7 @@ use Utilities\DB;
 use Http\Session;
 use Controllers\Router;
 use Controllers\Link;
+use Http\Request;
 use Utilities\Browser;
 
 ///////////////////////////////
@@ -38,6 +39,9 @@ define('TIMEOUT', 1800); // 30 mins 1800
 
 // Set views directory
 define('VIEWS', 'templates/');
+
+// Set ajax allowed directory
+define('SCRIPTS', 'src/');
 
 // Set Stage Env
 define('STAGE', true);
@@ -67,8 +71,15 @@ if (!STAGE) {
 //* Initialize Classes
 ///////////////////////////////
 
-// Connect DB
-$db = (new DB)->start();
 $session = new Session;
 $router = new Router;
 $link = new Link;
+
+// Connect DB
+$db = (new DB)->start();
+
+///////////////////////////////
+//* Authenticate Request
+///////////////////////////////
+
+// Request::handleRequest();
