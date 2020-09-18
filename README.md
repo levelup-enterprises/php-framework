@@ -2,15 +2,16 @@
 
 1. Install vendor libraries ( _composer install_ )
 
-2. Use the SRC -> config -> index file to set up your site information
+2. Use the _src/config/index_ file to set up your site information
 
 3. Add your accessible pages to the templates directory
 
    - Router only allows page request to pages in templates directory
    - Source folder can be changed in config file
 
-4. Add page content to templates/views
-   - Add extension _.view.php_ to all content pages
+4. Add pages/views to the templates directory
+   - Add a new directory for every page.
+     - _Must include an index.php file_
 
 # Structure
 
@@ -20,7 +21,7 @@ Basic project setup files are stored here.
 
 - index.php
 
-  - Initializes project with routes, sessions and pages
+  - Initializes project routes, sessions, authentication and page views.
 
 ## Public
 
@@ -29,10 +30,10 @@ Store all public accessible content here.
 - CSS
 
   - All styles are loaded through core.css
+    - Feel free to use any other method.
 
 - Images
 - JS
-
   - Include any custom js here
 
 ## SRC
@@ -41,19 +42,19 @@ All backend content is stored here.
 
 - Config
 
-  - Backend project setup code
-  - Configure site info here
-  - Store all sensitive data here
+  - Project setup
+  - Configure site info
+  - Store all sensitive data
   - Includes database connection file
 
 - Controllers
   Route controllers are stored here
 
   - Route (project router)
-  - Link (connects project together)
+  - Link (bridges all components of the project)
 
 - Models
-  Project class modules are stored here
+  Custom modules are stored here
 
   - Export
 
@@ -68,6 +69,12 @@ All backend content is stored here.
   - DB
   - Helper
 
+- Root
+
+  Default script location for http request and middleware
+
+  - **Modify default location in src/config file**
+
 ## Templates
 
 All view content is stored here.
@@ -79,22 +86,20 @@ All view content is stored here.
   EX: footer, header...
 
   - Common
-    Place reusable components here.
+    - Place reusable components here.
 
 - Pages
-  All page specific content is rendered here.
 
+  - All page specific content is rendered here.
   - The directory name is the page name
 
-    - **Requires an index page and view page to render correctly**
+    - _Requires an index page to render correctly_
 
-  - Nest additional directories to build out more complex structures.
+  - Nest additional directories to build out more complex projects.
 
   ### Basic Router Use:
 
-  For every level down you go you must include a views directory to house rendered content.
-
-  EX:
+      This structure:
 
         templates/
           home/
@@ -108,6 +113,14 @@ All view content is stored here.
               view.php (page content)
           404/
             index.php (accessible page)
+
+      Allows these links:
+
+      site.com/
+      site.com/home
+      site.com/admin
+      site.com/admin/users
+      site.com/404
 
 ## Vendor
 
