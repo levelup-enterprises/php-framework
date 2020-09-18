@@ -12,10 +12,10 @@
                 <a class="nav-link" href="/login">Login</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/level-1/">Lv1</a>
+                <a class="nav-link" href="/admin">Admin</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/level-1/level-2/">Lv2</a>
+                <a class="nav-link" href="/admin/users">Users</a>
             </li>
         </ul>
     </div>

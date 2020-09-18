@@ -36,10 +36,7 @@ class Router
 
         // If var empty set to index
         if (empty($uri[0])) {
-            $uri[0] = 'index';
-        } else if (preg_match('./$.', $this->request)) {
-            $i = count($uri);
-            $uri[$i - 1] .= '/index';
+            $uri[0] = HOME_DIR;
         }
 
         // Check for deep roots
@@ -53,9 +50,9 @@ class Router
 
         // Check if site exist
         if (in_array(strtolower($uri[0]), $this->pages)) {
-            return '/' . VIEWS . $uri[0] . '.php';
+            return "/" . VIEWS . "$uri[0]/index.php";
         } else {
-            return '/' . VIEWS . '404.php';
+            return '/' . VIEWS . '404/index.php';
         }
     }
 
@@ -72,6 +69,8 @@ class Router
         $uri = trim($this->request, "/");
         $uri = explode(".php", $uri);
         $uri = explode("/", $uri[0]);
+
+        print_r($this->pages);
 
         // Check if file exist
         if (in_array(strtolower($uri[1]), $this->pages)) {
@@ -115,26 +114,27 @@ class Router
                         if ($file == '.' || $file == '..') {
                             continue;
                         }
-                        // Remove these directories
-                        if ($file !== "components" && $file !== "views") {
+                        // Remove component directories
+                        if ($file !== COMPONENT_DIR) {
                             $file  = $dir . $file;
                             if (!$this->isRequest && is_dir($file)) {
                                 $directory_path = $file . '/';
                                 array_push($directories, $directory_path);
                             } elseif (is_file($file)) {
-
                                 // Remove root
                                 $file = str_replace($root, "", $file);
                                 // Remove extension
-                                $page = explode(".php", $file);
-                                array_push($pages, $page[0]);
+                                $page = explode("/", $file);
+                                array_pop($page);
+                                $page = implode('/', $page);
+                                array_push($pages, $page);
                             }
                         }
                     }
                     closedir($handle);
                 }
-            }
-            return $pages;
+            };
+            return array_unique($pages);
         } catch (Exception $e) {
             print_r($e);
         }
@@ -152,18 +152,21 @@ class Router
      */
     public static function trimURI($returnName = false)
     {
-        $page = explode(".php", Request::getURI());
+        $page = rtrim(Request::getURI(), '/');
+        $page = explode(".php", $page);
+
         $page = explode("/", $page[0]);
         $pageName = array_pop($page);
+
         $root = "";
         foreach ($page as $i) {
             $root .= $i . "/";
         }
         // Return page name
         if ($returnName) {
-            empty($pageName) && $pageName = "index";
+            empty($pageName) && $pageName = HOME_DIR;
             $root = $pageName;
         }
-        return $root = trim($root, "/");
+        return $root;
     }
 }

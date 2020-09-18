@@ -54,7 +54,7 @@ class Link
     public function getView()
     {
         isset($this->uri) ? $page = "/" . $this->uri : "";
-        return "/$this->root/$this->views$page/views/$this->page.view.php";
+        return "/$this->root/$this->views$page$this->page/view.php";
     }
 
     /** -------------------------
@@ -65,6 +65,6 @@ class Link
      */
     public function getComponent($component)
     {
-        return "/$this->root/$this->views/components/$component.php";
+        return "/$this->root/$this->views/" . COMPONENT_DIR . "/$component.php";
     }
 }

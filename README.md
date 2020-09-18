@@ -50,6 +50,7 @@ All backend content is stored here.
   Route controllers are stored here
 
   - Route (project router)
+  - Link (connects project together)
 
 - Models
   Project class modules are stored here
@@ -71,7 +72,7 @@ All backend content is stored here.
 
 All view content is stored here.
 
-\*All valid routes are established in this folder (EXCEPT for components & pages).
+\*All valid routes are established in this folder (EXCEPT for your components directory).
 
 - Components
   Main site components are stored here.
@@ -80,11 +81,14 @@ All view content is stored here.
   - Common
     Place reusable components here.
 
-- Views
+- Pages
   All page specific content is rendered here.
 
-  - View file and page file must have same name (View use example below)
-  - All page data is prefixed with .page.php
+  - The directory name is the page name
+
+    - **Requires an index page and view page to render correctly**
+
+  - Nest additional directories to build out more complex structures.
 
   ### Basic Router Use:
 
@@ -93,17 +97,17 @@ All view content is stored here.
   EX:
 
         templates/
-          thankyou.php (accessible page)
-          views/
-            thankyou.view.php (page content)
-          authorized/
-            user.php (accessible page)
-            views/
-              user.view.php (page content)
-            admin/
+          home/
+            index.php (accessible page)
+            view.php (page content)
+          admin/
+            index.php (accessible page)
+            view.php (page content)
+            users/
               index.php (accessible page)
-              views/
-                index.view.php (page content)
+              view.php (page content)
+          404/
+            index.php (accessible page)
 
 ## Vendor
 

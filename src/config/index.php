@@ -11,14 +11,12 @@ use Utilities\DB;
 use Http\Session;
 use Controllers\Router;
 use Controllers\Link;
-use Http\Request;
-use Utilities\Browser;
 
 ///////////////////////////////
 //* Project Variables
 ///////////////////////////////
 
-// Site Info --------------------------- //
+//* Site Info --------------------------- //
 
 // Set site title
 define('TITLE', 'PHP Starter');
@@ -29,19 +27,27 @@ define('PROD_URL', 'www.phpstarter.com');
 // Set current version
 define('VERSION', '1.0');
 
-// ------------------------------------ //
+//* Structure --------------------------- //
+
+// Default home directory
+define('HOME_DIR', 'home');
+
+// Set views directory
+define('VIEWS', 'templates/');
+
+// Default component directory
+define('COMPONENT_DIR', '_components');
+
+// Set ajax allowed directory
+define('SCRIPTS', 'src/');
+
+//* System ------------------------------ //
 
 // Set DB connection info
 define('DBDATA', include('db.php'));
 
 // Set Session timeout
 define('TIMEOUT', 1800); // 30 mins 1800
-
-// Set views directory
-define('VIEWS', 'templates/');
-
-// Set ajax allowed directory
-define('SCRIPTS', 'src/');
 
 // Set Stage Env
 define('STAGE', true);
@@ -77,9 +83,3 @@ $link = new Link;
 
 // Connect DB
 $db = (new DB)->start();
-
-///////////////////////////////
-//* Authenticate Request
-///////////////////////////////
-
-// Request::handleRequest();

@@ -10,7 +10,7 @@ class Request
 
     public function handleRequest()
     {
-        if ($_POST || $_GET) {
+        if ($_POST) {
             return true;
         } else {
             return false;

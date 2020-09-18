@@ -10,8 +10,8 @@
 <body class="<?= $router->trimURI(true)  ?>">
     <!-- Nav -->
     <?php include($link->getComponent('nav'))  ?>
-    <!-- Main -->
-    <?php include($link->getComponent('main'))  ?>
+    <!-- View -->
+    <?php include($link->getView()) ?>
     <!-- Scripts -->
     <?php include($link->getComponent('scripts'))  ?>
 
