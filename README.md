@@ -126,9 +126,9 @@ All view content is stored here.
 
 All vendor required files are stored here.
 
-### Libraries
+### Vendor Libraries
 
-- AWS (texting)
+- AWS (email smtp and texting)
 - phpmailer (emails)
 - thingengineer (db library shortcode)
 

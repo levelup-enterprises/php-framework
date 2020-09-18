@@ -4,7 +4,6 @@
 <head>
     <!-- Header -->
     <?php include($link->getComponent('header')) ?>
-    <title><?= TITLE ?> - test!</title>
 </head>
 
 <body>

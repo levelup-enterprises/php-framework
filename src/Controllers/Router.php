@@ -20,7 +20,7 @@ class Router
     }
 
     /** ----------------------------
-     *? Redirect URI
+     ** Redirect URI
      * -----------------------------
      * Capture & clean URI to filter 
      *  through accepted pages.
@@ -57,7 +57,7 @@ class Router
     }
 
     /** ------------------------------
-     *? Allow access to backend files
+     ** Allow access to backend files
      * -------------------------------
      *  - Get available routes
      *  - Check with URI request
@@ -81,7 +81,7 @@ class Router
     }
 
     /** ----------------------------
-     *? Filter Pages
+     ** Filter Pages
      * -----------------------------
      * Look through folders in 
      *  received path & build array 
@@ -141,7 +141,7 @@ class Router
     }
 
     /** ----------------------------
-     *? Format URI
+     ** Format URI
      * -----------------------------
      * Return clean uri as path OR
      *  as page name.

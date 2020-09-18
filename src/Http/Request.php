@@ -18,7 +18,7 @@ class Request
     }
 
     /** ----------------------------
-     *? Redirect browser
+     ** Redirect browser
      * -----------------------------
      * @return string $query
      */
@@ -35,7 +35,7 @@ class Request
     }
 
     /** ----------------------------
-     *? Get GET query
+     ** Get GET query
      * -----------------------------
      * Get & clean query
      * @return string $query
@@ -54,7 +54,7 @@ class Request
     }
 
     /** ----------------------------
-     *? Get POST query
+     ** Get POST query
      * -----------------------------
      * Get & clean query
      * @return string $query
@@ -69,7 +69,7 @@ class Request
     }
 
     /** ----------------------------
-     *? Get All GET queries
+     ** Get All GET queries
      * -----------------------------
      * Get & clean GET queries
      * @return array $form
@@ -88,7 +88,7 @@ class Request
     }
 
     /** ----------------------------
-     *? Get All POST queries
+     ** Get All POST queries
      * -----------------------------
      * Get & clean POST queries
      * @return array $form
@@ -107,7 +107,7 @@ class Request
     }
 
     /** ----------------------------
-     *? Return HTTP_HOST
+     ** Return HTTP_HOST
      * -----------------------------
      * @return string host
      */
@@ -121,7 +121,7 @@ class Request
     }
 
     /** ----------------------------
-     *? Return REQUEST_URI
+     ** Return REQUEST_URI
      * -----------------------------
      * @return string uri
      */
@@ -135,7 +135,7 @@ class Request
     }
 
     /** ----------------------------
-     *? Return HTTP_X_AUTH_TOKEN
+     ** Return HTTP_X_AUTH_TOKEN
      * -----------------------------
      * @return string token
      */
@@ -149,7 +149,7 @@ class Request
     }
 
     /** ----------------------------
-     *? Return HTTP_REFERER
+     ** Return HTTP_REFERER
      * -----------------------------
      * @return string referer
      */
@@ -164,7 +164,7 @@ class Request
 
 
     /** ----------------------------
-     *? Return DOCUMENT_ROOT
+     ** Return DOCUMENT_ROOT
      * -----------------------------
      * @return string root
      */
@@ -178,7 +178,7 @@ class Request
     }
 
     /** ----------------------------
-     *? Redirect to login
+     ** Redirect to login
      * -----------------------------
      * If loggedIn session is false
      *  set intended URI as session
@@ -195,7 +195,7 @@ class Request
     }
 
     /** ----------------------------
-     *? Continue to intended url
+     ** Continue to intended url
      * -----------------------------
      * Capture URI session if set & 
      *  continue after login.
@@ -212,7 +212,7 @@ class Request
     }
 
     /** ---------------------------
-     *? Verify CSRF Token
+     ** Verify CSRF Token
      * -----------------------------
      * Compare session token with
      *  post token.
@@ -231,7 +231,7 @@ class Request
     }
 
     /** ---------------------------
-     *? Verify Header Token
+     ** Verify Header Token
      * -----------------------------
      * Compare session token with
      *  header token to 

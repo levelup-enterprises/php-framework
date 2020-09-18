@@ -2,11 +2,13 @@
 
 namespace Utilities;
 
+use Controllers\Router;
+
 class Helper
 {
 
     /** ----------------------------
-     *? Get file extension
+     ** Get file extension
      * -----------------------------
      * Return file extension
      * @return string $file file name
@@ -19,7 +21,7 @@ class Helper
     }
 
     /** ----------------------------
-     *? Return JSON error message
+     ** Return JSON error message
      * -----------------------------
      * @param string $text optional
      * @return JSON error message
@@ -34,5 +36,25 @@ class Helper
         ];
         echo json_encode($message);
         exit();
+    }
+
+    /** ----------------------------
+     ** Set page title
+     * -----------------------------
+     * Default returns current page name
+     * - Send custom string if desired
+     * @param string $text optional
+     * @return string formatted title
+     */
+    public static function setTitle($text = null)
+    {
+        if (empty($text)) {
+            $title = Router::trimURI(true);
+            $title = ucfirst($title);
+        } else {
+            $title = $text;
+        }
+
+        return $title;
     }
 }

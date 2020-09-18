@@ -18,7 +18,7 @@ class Session
     }
 
     /** ---------------------------
-     *? Start session
+     ** Start session
      * ----------------------------
      * Start new session with 
      *  timeout counter.
@@ -29,7 +29,7 @@ class Session
     }
 
     /** ---------------------------
-     *? Create session
+     ** Create session
      * ----------------------------
      * Create session from value 
      * @param string $session
@@ -47,7 +47,7 @@ class Session
     }
 
     /** ---------------------------
-     *? Get session
+     ** Get session
      * ----------------------------
      * Get requested session
      * Optional clear after use
@@ -65,7 +65,7 @@ class Session
     }
 
     /** ---------------------------
-     *? Clear session data
+     ** Clear session data
      * ----------------------------
      * - Destroy session
      */
@@ -86,7 +86,7 @@ class Session
     }
 
     /** ---------------------------
-     *? Check for user session
+     ** Check for user session
      * ----------------------------
      * Redirect to login if session
      *  not set.
@@ -102,7 +102,7 @@ class Session
     }
 
     /** ---------------------------
-     *? Logout current user
+     ** Logout current user
      * ----------------------------
      * - Destroy session
      * - Redirect to login page
@@ -120,7 +120,7 @@ class Session
     }
 
     /** ---------------------------
-     *? Set timeout
+     ** Set timeout
      * -----------------------------
      * Set timeout counter for 
      *   session.
@@ -139,7 +139,7 @@ class Session
     }
 
     /** ---------------------------
-     *? Set CSRF Token
+     ** Set CSRF Token
      * -----------------------------
      * Set token if it doesn't 
      *  exist, get token.

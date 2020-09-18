@@ -18,7 +18,7 @@ class Link
 
 
     /** ----------------------------
-     *? Return public path
+     ** Return public path
      * -----------------------------
      * @param string $path public directory
      * @return string path for inclusion
@@ -29,7 +29,7 @@ class Link
     }
 
     /** ----------------------------
-     *? Return file to include
+     ** Return file to include
      * -----------------------------
      * - Use inside include function
      * 
@@ -46,7 +46,7 @@ class Link
     }
 
     /** -------------------------
-     *? Return current view path
+     ** Return current view path
      * --------------------------
      * Includes current page view
      * - Use inside include function
@@ -58,7 +58,7 @@ class Link
     }
 
     /** -------------------------
-     *? Return Component path 
+     ** Return Component path 
      * --------------------------
      * Return requested component path
      * - Use inside include function
